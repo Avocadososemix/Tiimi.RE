@@ -5,6 +5,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -42,9 +43,41 @@ public class Stepdefs {
         pageHasContent(title);
     }
 
+    @Given("^new book has been added$")
+    public void new_book_has_been_added() throws Throwable {
+        WebElement element = driver.findElement(By.linkText("Books"));
+        element.click();
+        element = driver.findElement(By.name("title"));
+        element.sendKeys("Introduction to the Theory of Computation");
+        element = driver.findElement(By.name("author"));
+        element.sendKeys("Michael Sipser");
+        element = driver.findElement(By.name("ISBN"));
+        element.sendKeys("978-1133187790");
+        element = driver.findElement(By.name("tags"));
+        element.sendKeys("Laskennan mallit");
+        element = driver.findElement(By.name("submitbook"));
+        element.click();
+    }
+
+    @When("^book is deleted$")
+    public void book_is_deleted() throws Throwable {
+        WebElement element = driver.findElement(By.name("poispois"));
+        element.click();
+    }
+
+    @Then("^book isn't listed$")
+    public void book_isn_t_listed() throws Throwable {
+        pageHasNoContent("Introduction");
+    }
+
     /* helper methods */
     private void pageHasContent(String content) {
         assertTrue(driver.getPageSource().contains(content));
+    }
+    
+        /* helper methods */
+    private void pageHasNoContent(String content) {
+        assertFalse(driver.getPageSource().contains(content));
     }
 
     @After
@@ -53,4 +86,3 @@ public class Stepdefs {
     }
 
 }
-
