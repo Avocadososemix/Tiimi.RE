@@ -23,3 +23,4 @@ Feature: user can edit bookmarks
     And book has been selected to be edit
     When user change ISBN to "978-951-98548-9-2"
     Then book data contains "978-951-98548-9-2"
+
