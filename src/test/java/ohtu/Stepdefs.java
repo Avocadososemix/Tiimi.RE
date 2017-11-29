@@ -47,7 +47,7 @@ public class Stepdefs {
         element.sendKeys(newTitle);
         element = driver.findElement(By.name("ISBN"));
         element.sendKeys(newISBN);
-        element = driver.findElement(By.name("submitedit"));
+        element = driver.findElement(By.name("send"));
         element.click();
     }
 
@@ -62,13 +62,11 @@ public class Stepdefs {
         pageHasContent(title);
     }
 
-
     @Then("^book named \"([^\"]*)\" has been edited and its new name is \"([^\"]*)\"")
     public void user_has_changed_the_name_of_an_existing_bookmark(String originalTitle, String newTitle) {
         pageHasNoContent(originalTitle);
         pageHasContent(newTitle);
     }
-
 
     @Given("^new book has been added$")
     public void new_book_by_sipser_has_been_added() throws Throwable {
@@ -86,7 +84,7 @@ public class Stepdefs {
         element.click();
     }
 
-    @When("^edit button is selected")
+    @When("^edit button is pressed")
     public void book_edit_button_has_been_pressed() {
         WebElement element = driver.findElement(By.name("editbutton"));
         element.click();
@@ -108,7 +106,7 @@ public class Stepdefs {
     public void book_has_been_selected_to_be_edit() throws Throwable {
         WebElement element = driver.findElement(By.name("bookInstance"));
         element.click();
-         element = driver.findElement(By.linkText("Edit"));
+        element = driver.findElement(By.linkText("Edit"));
         element.click();
     }
 
@@ -116,7 +114,7 @@ public class Stepdefs {
     public void user_change_title_to(String title) throws Throwable {
         WebElement element = driver.findElement(By.name("title"));
         element.sendKeys(title);
-       element = driver.findElement(By.name("send"));
+        element = driver.findElement(By.name("send"));
         element.click();
     }
 
@@ -132,7 +130,7 @@ public class Stepdefs {
     public void user_change_tags_to(String tags) throws Throwable {
         WebElement element = driver.findElement(By.name("tags"));
         element.sendKeys(tags);
-    element = driver.findElement(By.name("send"));
+        element = driver.findElement(By.name("send"));
         element.click();
     }
 
