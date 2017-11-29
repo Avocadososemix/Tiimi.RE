@@ -65,6 +65,7 @@ public class BookDao implements Dao<Book, Integer> {
             stmt.setString(4, book.getTags());
             stmt.setDate(5, book.getTime());
             stmt.executeUpdate();
+            saveOrUpdateTags(book.getTags(), book.getTitle());
         }
 
         return findByName(book.getTitle());
@@ -85,8 +86,56 @@ public class BookDao implements Dao<Book, Integer> {
         statement.setString(4, book.getTags());
         statement.setInt(5, book.getId());
         statement.executeUpdate();
-
+        saveOrUpdateTags(book.getTags(), book.getTitle());
         return findByName(book.getTitle());
+    }
+
+    public void saveOrUpdateTags(String tags, String title) throws SQLException {
+        if (tags == null || title == null) {
+            return;
+        }
+        int bookId = findByName(title).getId();
+        try (Connection conn = database.getConnection()) {
+            String tagParts[] = tags.split(",");
+            for (String tagPart : tagParts) {
+                System.out.println("Lisätään tagi " + tagPart.trim() + " databaseen");
+                PreparedStatement tagCheck = conn.prepareStatement("INSERT OR IGNORE INTO Tags (tagName) VALUES (?)");
+                tagCheck.setString(1, tagPart.trim());
+                tagCheck.executeUpdate();
+                System.out.println("Lisätään liitostaulu kirjan ja tagin välille");
+                PreparedStatement tagit = conn.prepareStatement("INSERT INTO BookTags "
+                        + "(book_id, tag_id) VALUES (?, (SELECT tag_id FROM Tags WHERE tagName = ?))");
+                tagit.setInt(1, bookId);
+                tagit.setString(2, tagPart.trim()); // tässä käytetty trim! huom! kannattaa siis tagien haussa myös.
+                tagit.executeUpdate();
+                System.out.println("Liitostaulu lisätty");
+            }
+        }
+
+    }
+
+    private String findTagsAndReturnAsCommaSeparatedString(int id) throws SQLException {
+        try (Connection conn = database.getConnection()) {
+            PreparedStatement tagit = conn.prepareStatement("SELECT tagName FROM Tags \n"
+                    + "LEFT JOIN BookTags ON Tags.tag_id = BookTags.tag_id\n"
+                    + "LEFT JOIN Book ON BookTags.book_id = Book.id\n"
+                    + "WHERE Book.id = ?");
+
+            tagit.setInt(1, id);
+            ResultSet tagsResult = tagit.executeQuery();
+            if (!tagsResult.next()) {
+                return null;
+            }
+            StringBuilder builder = new StringBuilder();
+            while (tagsResult.next()) {
+                builder.append(tagsResult.getString("tagName"));
+                if (!tagsResult.isLast()) {
+                    builder.append(", ");
+                }
+            }
+            String tagsToReturn = builder.toString();
+            return tagsToReturn;
+        }
     }
 
     public Book findByName(String title) throws SQLException {
@@ -114,4 +163,3 @@ public class BookDao implements Dao<Book, Integer> {
     }
 
 }
-
