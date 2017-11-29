@@ -43,6 +43,7 @@ public class Stepdefs {
         pageHasContent(title);
     }
 
+
     @Given("^new book has been added$")
     public void new_book_has_been_added() throws Throwable {
         WebElement element = driver.findElement(By.linkText("Books"));
@@ -63,19 +64,65 @@ public class Stepdefs {
     public void book_is_deleted() throws Throwable {
         WebElement element = driver.findElement(By.name("poispois"));
         element.click();
+
     }
 
     @Then("^book isn't listed$")
     public void book_isn_t_listed() throws Throwable {
-        pageHasNoContent("Introduction");
+        pageHasNoContent("Introduction to the Theory of Computation");
+    }
+
+    @Given("^book has been selected to be edit$")
+    public void book_has_been_selected_to_be_edit() throws Throwable {
+        WebElement element = driver.findElement(By.name("bookInstance"));
+        element.click();
+         element = driver.findElement(By.linkText("Edit"));
+        element.click();
+    }
+
+    @When("^user change title to \"([^\"]*)\"$")
+    public void user_change_title_to(String title) throws Throwable {
+        WebElement element = driver.findElement(By.name("title"));
+        element.sendKeys(title);
+       element = driver.findElement(By.name("send"));
+        element.click();
+    }
+
+    @When("^user change author to \"([^\"]*)\"$")
+    public void user_change_author_to(String author) throws Throwable {
+        WebElement element = driver.findElement(By.name("author"));
+        element.sendKeys(author);
+        element = driver.findElement(By.name("send"));
+        element.click();
+    }
+
+    @When("^user change tags to \"([^\"]*)\"$")
+    public void user_change_tags_to(String tags) throws Throwable {
+        WebElement element = driver.findElement(By.name("tags"));
+        element.sendKeys(tags);
+    element = driver.findElement(By.name("send"));
+        element.click();
+    }
+
+    @When("^user change ISBN to \"([^\"]*)\"$")
+    public void user_change_ISBN_to(String isbn) throws Throwable {
+        WebElement element = driver.findElement(By.name("ISBN"));
+        element.sendKeys(isbn);
+        element = driver.findElement(By.name("send"));
+        element.click();
+    }
+
+    @Then("^book data contains \"([^\"]*)\"$")
+    public void book_data_contains(String arg1) throws Throwable {
+        pageHasContent(arg1);
     }
 
     /* helper methods */
     private void pageHasContent(String content) {
         assertTrue(driver.getPageSource().contains(content));
     }
-    
-        /* helper methods */
+
+    /* helper methods */
     private void pageHasNoContent(String content) {
         assertFalse(driver.getPageSource().contains(content));
     }

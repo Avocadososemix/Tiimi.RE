@@ -51,7 +51,7 @@ public class Main {
             String tags = request.queryParams("tags");
             Book book = new Book(id, title, author, isbn, tags);
             books.update(book);
-            response.redirect("/books");
+            response.redirect("/books/" + id);
             return "";
         });
 
