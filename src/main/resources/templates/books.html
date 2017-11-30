@@ -21,7 +21,7 @@
 
                 <td>
                     <form method="post" th:action="@{~/books/{id}(id=${book.id})}">
-                        <a th:href="@{~/books/{id}(id=${book.id})}">
+                        <a th:href="@{~/books/{id}(id=${book.id})}" name="bookInstance">
                             <span th:text="${book.title}">Title</span>
                         </a><input type="submit" name="poispois" value="Delete"/>
                     </form>

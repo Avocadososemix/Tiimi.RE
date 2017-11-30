@@ -8,14 +8,15 @@
 
         <form method="POST" th:action="@{~/books/{id}/edit(id=${book.id})}">
             <label>Title:</label><br/>
-            <input type="text" name="title" th:value="${book.title}" required/><br/>
+            <input type="text" name="title" th:placeholder="${book.title}" required/><br/>
             <label>Author:</label><br/>
-            <input type="text" name="author" th:value="${book.author}" required/><br/>
+            <input type="text" name="author" th:placeholder="${book.author}" required/><br/>
             <label>ISBN:</label><br/>
-            <input type="text" name="ISBN" th:value="${book.ISBN}" required/><br/>
+            <input type="text" name="ISBN" th:placeholder="${book.ISBN}" required/><br/>
             <label>Tags:</label><br/>
             <input type="text" name="tags" th:value="${book.tags}"/><br/>       
-            <button type="submit">Edit</button>
+            <button type="submit" name="send">Edit</button>
+
         </form>
     </body>
 </html>

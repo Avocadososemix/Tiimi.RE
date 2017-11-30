@@ -90,25 +90,36 @@ public class BookDao implements Dao<Book, Integer> {
         return findByName(book.getTitle());
     }
 
+        public static ArrayList<String> validateName(String name) {
+        ArrayList<String> errors = new ArrayList<>();
+        if ("".equals(name) || name == null) {
+            errors.add("Nimi ei saa olla tyhjä!");
+        }
+        if (name.length() < 3) {
+            errors.add("Nimen pituuden tulee olla vähintään kolme merkkiä!");
+        }
+        return errors;
+    }
+    
     public void saveOrUpdateTags(String tags, String title) throws SQLException {
         if (tags == null || title == null) {
             return;
         }
         int bookId = findByName(title).getId();
         try (Connection conn = database.getConnection()) {
-            String tagParts[] = tags.split(",");
+            String tagParts[] = tags.split(","); //tänne täytyy vielä lisätä osa joka poistaa vanhoja tageja
             for (String tagPart : tagParts) {
                 System.out.println("Lisätään tagi " + tagPart.trim() + " databaseen");
                 PreparedStatement tagCheck = conn.prepareStatement("INSERT OR IGNORE INTO Tags (tagName) VALUES (?)");
                 tagCheck.setString(1, tagPart.trim());
                 tagCheck.executeUpdate();
-                System.out.println("Lisätään liitostaulu kirjan ja tagin välille");
+                //Lisätään liitostaulu kirjan ja tagin välille
                 PreparedStatement tagit = conn.prepareStatement("INSERT INTO BookTags "
                         + "(book_id, tag_id) VALUES (?, (SELECT tag_id FROM Tags WHERE tagName = ?))");
                 tagit.setInt(1, bookId);
                 tagit.setString(2, tagPart.trim()); // tässä käytetty trim! huom! kannattaa siis tagien haussa myös.
                 tagit.executeUpdate();
-                System.out.println("Liitostaulu lisätty");
+                //Liitostaulu lisätty
             }
         }
 
