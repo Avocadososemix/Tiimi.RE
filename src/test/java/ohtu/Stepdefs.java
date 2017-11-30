@@ -42,12 +42,16 @@ public class Stepdefs {
     @When("^author \"([^\"]*)\" and book name \"([^\"]*)\" and ISBN \"([^\"]*)\" are new values of the book")
     public void author_and_book_name_and_isbn_are_edited(String newAuthor, String newTitle, String newISBN) {
         WebElement element = driver.findElement(By.name("author"));
+        element.clear();
         element.sendKeys(newAuthor);
         element = driver.findElement(By.name("title"));
+        element.clear();
         element.sendKeys(newTitle);
         element = driver.findElement(By.name("ISBN"));
+        element.clear();
         element.sendKeys(newISBN);
         element = driver.findElement(By.name("send"));
+        element.clear();
         element.click();
     }
 
