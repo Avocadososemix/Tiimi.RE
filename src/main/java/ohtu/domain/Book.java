@@ -11,30 +11,34 @@ public class Book {
     private String author;
     private String ISBN;
     private String tags;
+    private int seen;
     private Date time;
 
-    public Book(String title, String author, String isbn, String tags) {
+    public Book(String title, String author, String isbn, String tags, int seen) {
         this.author = author;
         this.title = title;
         this.ISBN = isbn;
         this.tags = tags;
+        this.seen = seen;
         this.time = Date.valueOf(LocalDate.now());
     }
 
-    public Book(int id, String title, String author, String ISBN, String tags) {
+    public Book(int id, String title, String author, String ISBN, String tags, int seen) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.ISBN = ISBN;
         this.tags = tags;
+        this.seen = seen;
     }
 
-    public Book(Integer id, String title, String author, String ISBN, String tags, Date time) {
+    public Book(Integer id, String title, String author, String ISBN, String tags, int seen, Date time) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.ISBN = ISBN;
         this.tags = tags;
+        this.seen = seen;
         this.time = time;
     }
 
@@ -82,9 +86,16 @@ public class Book {
         this.tags = tags;
     }
 
+    public Integer getSeen() {
+        return seen;
+    }
+
+    public void setSeen(int seen) {
+        this.id = seen;
+    }
+
     public void setTime(Date time) {
         this.time = time;
     }
 
 }
-

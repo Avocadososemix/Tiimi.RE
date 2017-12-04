@@ -27,7 +27,7 @@ public class BookDao implements Dao<Book, Integer> {
             if (!result.next()) {
                 return null;
             }
-            Book b = new Book(result.getInt("id"), result.getString("title"), result.getString("author"), result.getString("ISBN"), result.getString("tags"), result.getDate("dateAdded"));
+            Book b = new Book(result.getInt("id"), result.getString("title"), result.getString("author"), result.getString("ISBN"), result.getString("tags"), result.getInt("seen") ,result.getDate("dateAdded"));
             return b;
 
         }
@@ -41,7 +41,7 @@ public class BookDao implements Dao<Book, Integer> {
                 ResultSet result = conn.prepareStatement("SELECT * FROM Book").executeQuery()) {
 
             while (result.next()) {
-                users.add(new Book(result.getInt("id"), result.getString("title"), result.getString("author"), result.getString("ISBN"), result.getString("tags")));
+                users.add(new Book(result.getInt("id"), result.getString("title"), result.getString("author"), result.getString("ISBN"), result.getString("tags"), result.getInt("seen")));
             }
         }
 
@@ -58,12 +58,13 @@ public class BookDao implements Dao<Book, Integer> {
 
         //Tallennetaan kirja
         try (Connection conn = database.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO Book (title, author, ISBN, tags, dateAdded) VALUES (?, ?, ?, ?, ?)");
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO Book (title, author, ISBN, tags, seen, dateAdded) VALUES (?, ?, ?, ?, ?, ?)");
             stmt.setString(1, book.getTitle());
             stmt.setString(2, book.getAuthor());
             stmt.setString(3, book.getISBN());
             stmt.setString(4, book.getTags());
-            stmt.setDate(5, book.getTime());
+            stmt.setInt(5, book.getSeen());
+            stmt.setDate(6, book.getTime());
             stmt.executeUpdate();
             saveOrUpdateTags(book.getTags(), book.getTitle());
         }
@@ -159,7 +160,7 @@ public class BookDao implements Dao<Book, Integer> {
                 return null;
             }
 
-            return new Book(result.getInt("id"), result.getString("title"), result.getString("author"), result.getString("ISBN"), result.getString("tags"));
+            return new Book(result.getInt("id"), result.getString("title"), result.getString("author"), result.getString("ISBN"), result.getString("tags"), result.getInt("seen"));
         }
     }
 
