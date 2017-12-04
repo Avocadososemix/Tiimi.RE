@@ -91,7 +91,7 @@ public class BookDao implements Dao<Book, Integer> {
         return findByName(book.getTitle());
     }
 
-        public static ArrayList<String> validateName(String name) {
+    public static ArrayList<String> validateName(String name) {
         ArrayList<String> errors = new ArrayList<>();
         if ("".equals(name) || name == null) {
             errors.add("Nimi ei saa olla tyhjä!");
@@ -101,7 +101,7 @@ public class BookDao implements Dao<Book, Integer> {
         }
         return errors;
     }
-    
+
     public void saveOrUpdateTags(String tags, String title) throws SQLException {
         if (tags == null || title == null) {
             return;

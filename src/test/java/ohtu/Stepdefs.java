@@ -42,12 +42,16 @@ public class Stepdefs {
     @When("^author \"([^\"]*)\" and book name \"([^\"]*)\" and ISBN \"([^\"]*)\" are new values of the book")
     public void author_and_book_name_and_isbn_are_edited(String newAuthor, String newTitle, String newISBN) {
         WebElement element = driver.findElement(By.name("author"));
+        element.clear();
         element.sendKeys(newAuthor);
         element = driver.findElement(By.name("title"));
+        element.clear();
         element.sendKeys(newTitle);
         element = driver.findElement(By.name("ISBN"));
+        element.clear();
         element.sendKeys(newISBN);
         element = driver.findElement(By.name("send"));
+        element.clear();
         element.click();
     }
 
@@ -113,6 +117,7 @@ public class Stepdefs {
     @When("^user change title to \"([^\"]*)\"$")
     public void user_change_title_to(String title) throws Throwable {
         WebElement element = driver.findElement(By.name("title"));
+        element.clear();
         element.sendKeys(title);
         element = driver.findElement(By.name("send"));
         element.click();
@@ -121,6 +126,7 @@ public class Stepdefs {
     @When("^user change author to \"([^\"]*)\"$")
     public void user_change_author_to(String author) throws Throwable {
         WebElement element = driver.findElement(By.name("author"));
+        element.clear();
         element.sendKeys(author);
         element = driver.findElement(By.name("send"));
         element.click();
@@ -129,6 +135,7 @@ public class Stepdefs {
     @When("^user change tags to \"([^\"]*)\"$")
     public void user_change_tags_to(String tags) throws Throwable {
         WebElement element = driver.findElement(By.name("tags"));
+        element.clear();
         element.sendKeys(tags);
         element = driver.findElement(By.name("send"));
         element.click();
@@ -137,6 +144,7 @@ public class Stepdefs {
     @When("^user change ISBN to \"([^\"]*)\"$")
     public void user_change_ISBN_to(String isbn) throws Throwable {
         WebElement element = driver.findElement(By.name("ISBN"));
+        element.clear();
         element.sendKeys(isbn);
         element = driver.findElement(By.name("send"));
         element.click();
