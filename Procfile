@@ -1,1 +1,1 @@
-web: java -cp target/classes:target/dependency/* ohtu.Main
+web: .build/install/Tiimi.RE/bin/Tiimi.RE
