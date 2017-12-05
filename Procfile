@@ -1,1 +1,1 @@
-web: .build/install/Tiimi.RE/bin/Tiimi.RE
+web: build/install/Tiimi.RE/bin/Tiimi.RE
