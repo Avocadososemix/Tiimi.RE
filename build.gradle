@@ -1,9 +1,9 @@
 plugins {
     id 'java'
     id 'application'
-//    id 'com.github.johnrengelman.shadow' version '2.0.1'
     id 'maven'
     id 'jacoco'
+    id 'io.ratpack.ratpack-groovy' version "1.4.5"
 }
 
 logging.captureStandardOutput LogLevel.QUIET
@@ -51,6 +51,8 @@ dependencies {
     //    testCompile "info.cukes:cucumber-spring:" + cucumberVersion
     testCompile group: 'junit', name: 'junit', version: '4.+'
     compile group: 'org.seleniumhq.selenium', name: 'htmlunit-driver', version: '2.28.2'
+    runtime "org.slf4j:slf4j-simple:1.7.12"
+    compile "com.heroku.sdk:heroku-jdbc:0.1.1"
 }
 
 test {
@@ -63,6 +65,10 @@ jacocoTestReport {
         xml.enabled true
         html.enabled true
     }
+}
+
+task stage {
+  dependsOn installDist
 }
 
 task applicationCodeCoverageReport(type:JacocoReport){
