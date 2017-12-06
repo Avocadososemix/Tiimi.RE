@@ -109,7 +109,6 @@ public class Stepdefs {
     public void book_is_deleted() throws Throwable {
         WebElement element = driver.findElement(By.name("poispois"));
         element.click();
-
     }
 
     @Then("^book isn't listed$")
@@ -186,6 +185,24 @@ public class Stepdefs {
     public void video_named_has_been_added(String videoTitle) throws Throwable {
         pageHasContent(videoTitle);
     }
+
+    @When("^video \"([^\"]*)\" is selected$")
+    public void video_is_selected(String videoTitle) throws Throwable {
+        WebElement element = driver.findElement(By.linkText(videoTitle));
+        element.click();
+    }
+
+    @When("^video is removed$")
+    public void video_is_removed() throws Throwable {
+        WebElement element = driver.findElement(By.name("poispois"));
+        element.click();
+    }
+
+    @Then("^video by name \"([^\"]*)\" is listed no more$")
+    public void video_by_name_is_listed_no_more(String videoTitle) throws Throwable {
+        pageHasNoContent(videoTitle);
+    }
+
 
     /* helper methods */
     private void pageHasContent(String content) {
