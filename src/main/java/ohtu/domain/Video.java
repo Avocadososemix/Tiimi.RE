@@ -11,9 +11,9 @@ public class Video {
     private String comment;
     private int id;
     private Date time;
-    private int seen;
+    private boolean seen;
 
-    public Video(String title, String url, String tags, String comment, int seen) {
+    public Video(String title, String url, String tags, String comment, boolean seen) {
         this.title = title;
         this.url = url;
         this.tags = tags;
@@ -31,7 +31,7 @@ public class Video {
         this.time = time;
     }
 
-    public Video(int id, String title, String url, String tags, String comment, int seen) {
+    public Video(int id, String title, String url, String tags, String comment, boolean seen) {
         this.title = title;
         this.url = url;
         this.tags = tags;
@@ -40,7 +40,7 @@ public class Video {
         this.seen = seen;
     }
 
-    public Video(String title, String url, String tags, String comment, int id, Date date, int seen) {
+    public Video(String title, String url, String tags, String comment, int id, Date date, boolean seen) {
         this.title = title;
         this.url = url;
         this.tags = tags;
@@ -70,11 +70,11 @@ public class Video {
         return comment;
     }
 
-    public int getSeen() {
+    public boolean getSeen() {
         return seen;
     }
 
-    public void setSeen(int seen) {
+    public void setSeen(boolean seen) {
         this.seen = seen;
     }
 

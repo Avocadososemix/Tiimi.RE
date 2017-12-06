@@ -132,7 +132,14 @@ public class Main {
             String title = request.queryParams("title");
             String tags = request.queryParams("tags");
             String comment = request.queryParams("comment");
-            int seen = 0;
+            boolean seen = false;
+
+            String checkbox = request.queryParams("box");
+
+            if (checkbox != null) {
+                seen = true;
+            }
+
             Video video = new Video(id, title, url, tags, comment, seen);
             videos.update(video);
             response.redirect("/videos/" + id);
@@ -144,7 +151,7 @@ public class Main {
             String title = request.queryParams("title");
             String tags = request.queryParams("tags");
             String comment = request.queryParams("comment");
-            int seen = 0;
+            boolean seen = false;
             Video video = new Video(title, url, tags, comment, seen);
             videos.save(video);
             response.redirect("/videos");

@@ -4,28 +4,26 @@
         <title>Tiimi.io</title>
     </head>
     <body>
-        <h1 th:text="${video.title}">Book</h1>
+        <div>
+            <h1 th:text="${video.title}">Book</h1>
 
-        <form method="POST" th:action="@{~/videos/{id}/edit(id=${video.id})}">
-            <label>Title:</label><br/>
-            <input type="text" name="title" th:value="${video.title}" required/><br/>
-            <label>Url:</label><br/>
-            <input type="text" name="url" th:value="${video.url}" required/><br/>
-            <label>Comment:</label><br/>
-            <input type="text" name="comment" th:value="${video.comment}" required/><br/>
-            <label>Tags:</label><br/>
-            <input type="text" name="tags" th:value="${video.tags}"/><br/>       
-            <button type="submit" name="send">Edit</button>
-        </form>
-        
-        <form>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox">
-                        READ
-                </label>
-            </div>
+            <form method="POST" th:action="@{~/videos/{id}/edit(id=${video.id})}">
+                <label>Title:</label><br/>
+                <input type="text" name="title" th:value="${video.title}" required/><br/>
+                <label>Url:</label><br/>
+                <input type="text" name="url" th:value="${video.url}" required/><br/>
+                <label>Comment:</label><br/>
+                <input type="text" name="comment" th:value="${video.comment}" required/><br/>
+                <label>Tags:</label><br/>
+                <input type="text" name="tags" th:value="${video.tags}"/><br/>  
+                <div class="checkbox">
+                    <label>
+                        <input name="box" type="checkbox">Read</input>
+                    </label>
+                </div>
+                <button type="submit" name="send">Edit</button>
+            </form>
 
-        </form>
+        </div>
     </body>
 </html>
