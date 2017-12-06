@@ -203,6 +203,18 @@ public class Stepdefs {
         pageHasNoContent(videoTitle);
     }
 
+    @When("^new name \"([^\"]*)\" is given to the video$")
+    public void new_name_is_given_to_the_video(String title) throws Throwable {
+        WebElement element = driver.findElement(By.name("title"));
+        element.sendKeys(title);
+        element = driver.findElement(By.name("send"));
+        element.click();
+    }
+
+    @Then("^video is named \"([^\"]*)\"$")
+    public void video_is_named(String newTitle) throws Throwable {
+        pageHasContent(newTitle);
+    }
 
     /* helper methods */
     private void pageHasContent(String content) {
