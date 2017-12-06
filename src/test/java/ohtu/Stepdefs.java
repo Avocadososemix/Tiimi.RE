@@ -27,6 +27,12 @@ public class Stepdefs {
         element.click();
     }
 
+    @Given("^videos are selected")
+    public void videos_are_selected() throws Throwable {
+        WebElement element = driver.findElement(By.linkText("Videos"));
+        element.click();
+    }
+
     @When("^author \"([^\"]*)\" and book name \"([^\"]*)\" and ISBN \"([^\"]*)\" are submitted")
     public void author_and_book_name_are_given(String author, String title, String ISBN) throws Throwable {
         WebElement element = driver.findElement(By.name("author"));
@@ -159,6 +165,26 @@ public class Stepdefs {
     public void book_data_contains(String arg1) throws Throwable {
         pageHasContent(arg1);
 
+    }
+
+    @Then("^book by name \"([^\"]*)\" is not listed anymore$")
+    public void book_by_name_is_not_listed_anymore(String title) throws Throwable {
+        pageHasNoContent(title);
+    }
+
+    @When("^title \"([^\"]*)\" and video url \"([^\"]*)\" are submitted$")
+    public void title_and_video_url_are_submitted(String title, String url) throws Throwable {
+        WebElement element = driver.findElement(By.name("title"));
+        element.sendKeys(title);
+        element = driver.findElement(By.name("url"));
+        element.sendKeys(url);
+        element = driver.findElement(By.name("submitvideo"));
+        element.click();
+    }
+
+    @Then("^video named \"([^\"]*)\" has been added$")
+    public void video_named_has_been_added(String videoTitle) throws Throwable {
+        pageHasContent(videoTitle);
     }
 
     /* helper methods */
