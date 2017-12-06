@@ -48,6 +48,30 @@ public class BookDao implements Dao<Book, Integer> {
         return users;
     }
 
+    public List<Book> findAllWithTag(String tag) throws SQLException {
+        List<Book> users = new ArrayList<>();
+
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT * FROM Book\n"
+                + "LEFT JOIN BookTags ON Book.id = BookTags.book_id\n"
+                + "LEFT JOIN Tags ON Tags.tag_id = BookTags.tag_id\n"
+                + "WHERE Tags.tagName = ");
+
+        tag = tag.toLowerCase();
+        
+        query.append(tag).append(";");
+        try (Connection conn = database.getConnection();
+        PreparedStatement stmt = conn.prepareStatement(query.toString());
+        
+                ResultSet result = stmt.executeQuery()) {
+
+            while (result.next()) {
+                users.add(new Book(result.getInt("id"), result.getString("title"), result.getString("author"), result.getString("ISBN"), result.getString("tags"), result.getBoolean("seen")));
+            }
+        }
+        return users;
+    }
+
     @Override
     public Book save(Book book) throws SQLException {
         Book byName = findByName(book.getTitle());
@@ -165,16 +189,15 @@ public class BookDao implements Dao<Book, Integer> {
     @Override
     public void delete(Integer key) throws SQLException {
         Connection connection = database.getConnection();
-        PreparedStatement statement = connection.prepareStatement("DELETE FROM Book WHERE id = ?");
+        PreparedStatement statement = connection.prepareStatement("DELETE FROM Book WHERE id = ?;DELETE FROM BookTags WHERE id = ?");
         statement.setInt(1, key);
         statement.executeUpdate();
 
 //        statement.close();
-//        PreparedStatement stmt = connection.prepareStatement("DELETE FROM BookTags WHERE book_id = ?");
+//        PreparedStatement stmt = connection.prepareStatement("DELETE OR IGNORE FROM BookTags WHERE book_id = ?");
 //        statement.setInt(1, key);
 //        stmt.executeUpdate();
 //        stmt.close();
-
         connection.close();
     }
 
