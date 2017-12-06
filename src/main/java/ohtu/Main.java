@@ -89,8 +89,8 @@ public class Main {
 //            return virheet.toString();
         });
 
-        Spark.post("/books/:id", (req, res) -> {
-            Integer id = Integer.parseInt(req.params(":id"));
+        Spark.post("/books/:id/remove", (req, res) -> {
+            int id = Integer.parseInt(req.params(":id"));
             Book book = books.findOne(id);
 
             if (book != null) {
@@ -145,7 +145,7 @@ public class Main {
             return "";
         });
 
-        Spark.post("/videos/:id", (req, res) -> {
+        Spark.post("/videos/:id/remove", (req, res) -> {
             Integer id = Integer.parseInt(req.params(":id"));
             Video video = videos.findOne(id);
 
