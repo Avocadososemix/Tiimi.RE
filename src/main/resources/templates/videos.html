@@ -26,15 +26,15 @@
                 <li class="nav-item"><a class="nav-link" href="#">Tulevia</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Valikoita</a></li>
             </ul>
-        <h1>Books</h1>
+        <h1>Videos</h1>
 
         <ul>
-            <li th:each="book : ${books}">
+            <li th:each="video : ${videos}">
 
                 <td>
-                    <form method="post" th:action="@{~/books/{id}(id=${book.id})}">
-                        <a th:href="@{~/books/{id}(id=${book.id})}" name="bookInstance">
-                            <span th:text="${book.title}">Title</span>
+                    <form method="post" th:action="@{~/videos/{id}(id=${video.id})}">
+                        <a th:href="@{~/videos/{id}(id=${video.id})}" name="videoInstance">
+                            <span th:text="${video.title}">Title</span>
                         </a>
                         <button onsubmit="deleteFunction()"><input type="submit" name="poispois"/>POISTA</button>
                         
@@ -43,13 +43,13 @@
             </li>
         </ul>
 
-        <h2>Add new Book</h2>
+        <h2>Add new Video</h2>
 
         <form method="POST" action="/books">
             <input type="text" name="title" placeholder="Title" required><br/>
-            <input type="text" name="author" placeholder="Author" required><br/>
-            <input type="text" name="ISBN" placeholder="ISBN" required><br/>
-            <input type="text" name="tags" placeholder="Tags"><br/> <br/>         
+            <input type="text" name="url" placeholder="url" required><br/>
+            <input type="text" name="tags" placeholder="Tags" required><br/>
+            <input type="text" name="comment" placeholder="Comment"><br/> <br/>         
             <input name="submitbook" type="submit" value="Add!"/>
             </form>
         </div>
@@ -66,5 +66,4 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     </body>
 </html>
-
 

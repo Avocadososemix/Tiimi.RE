@@ -4,19 +4,22 @@ import java.sql.Date;
 import java.time.LocalDate;
 
 public class Video {
+
     private String title;
     private String url;
     private String tags;
     private String comment;
     private int id;
     private Date time;
+    private int seen;
 
-    public Video(String title, String url, String tags, String comment) {
+    public Video(String title, String url, String tags, String comment, int seen) {
         this.title = title;
         this.url = url;
         this.tags = tags;
         this.comment = comment;
         this.time = Date.valueOf(LocalDate.now());
+
     }
 
     public Video(String title, String url, String tags, String comment, int id, Date time) {
@@ -26,6 +29,15 @@ public class Video {
         this.comment = comment;
         this.id = id;
         this.time = time;
+    }
+
+    public Video(int id, String title, String url, String tags, String comment, int seen) {
+        this.title = title;
+        this.url = url;
+        this.tags = tags;
+        this.comment = comment;
+        this.id = id;
+        this.seen = seen;
     }
 
     public void setTime(Date time) {
@@ -75,5 +87,5 @@ public class Video {
     public void setUrl(String url) {
         this.url = url;
     }
-    
+
 }

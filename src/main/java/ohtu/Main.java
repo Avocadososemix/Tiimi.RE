@@ -6,8 +6,10 @@ import java.time.LocalDate;
 import java.sql.*;
 import ohtu.Dao.BookDao;
 import java.util.HashMap;
+import ohtu.Dao.VideoDao;
 import ohtu.database.Database;
 import ohtu.domain.Book;
+import ohtu.domain.Video;
 import spark.ModelAndView;
 import spark.Spark;
 import static spark.Spark.port;
@@ -22,6 +24,7 @@ public class Main {
         }
         Database database = new Database("jdbc:sqlite:tietokanta.db");
         BookDao books = new BookDao(database);
+        VideoDao videos = new VideoDao(database);
 
         Spark.get("/", (req, res) -> {
             HashMap map = new HashMap<>();
@@ -82,6 +85,64 @@ public class Main {
             }
             res.redirect("/books");
             return ""; //ehkä voisi palauttaa jonkun ilmoituksen
+        });
+        
+        
+        
+        Spark.get("/videos", (req, res) -> {
+            HashMap map = new HashMap<>();
+            map.put("videos", videos.findAll());
+            return new ModelAndView(map, "videos");
+        }, new ThymeleafTemplateEngine());
+
+        Spark.get("/videos/:id", (req, res) -> {
+            HashMap map = new HashMap<>();
+            Integer videoId = Integer.parseInt(req.params(":id"));
+            map.put("video", videos.findOne(videoId));
+            return new ModelAndView(map, "video");
+        }, new ThymeleafTemplateEngine());
+
+        Spark.get("/videos/:id/edit", (request, response) -> {
+            HashMap map = new HashMap();
+            Integer videoId = Integer.parseInt(request.params(":id"));
+            map.put("video", videos.findOne(videoId));
+            return new ModelAndView(map, "edit");
+        }, new ThymeleafTemplateEngine());
+
+        Spark.post("/videos/:id/edit", (request, response) -> {
+            int id = Integer.parseInt(request.params(":id"));
+            String url = request.queryParams("url");
+            String title = request.queryParams("title");
+            String tags = request.queryParams("tags");
+            String comment = request.queryParams("comment");
+            int seen = 0;
+            Video video = new Video(id, title, url, tags, comment, seen);
+            videos.update(video);
+            response.redirect("/videos/" + id);
+            return "";
+        });
+
+        Spark.post("/videos", (request, response) -> {
+            String url = request.queryParams("url");
+            String title = request.queryParams("title");
+            String tags = request.queryParams("TAGS");
+            String comment = request.queryParams("comment");
+            int seen = 0;
+            Video video = new Video(title, url, tags, comment, seen);
+            videos.save(video);
+            response.redirect("/videos");
+            return "";
+        });
+
+        Spark.post("/videos/:id", (req, res) -> {
+            Integer id = Integer.parseInt(req.params(":id"));
+            Video video = videos.findOne(id);
+
+            if (video != null) {
+                videos.delete(id);
+            }
+            res.redirect("/videos");
+            return "";
         });
 
     }
