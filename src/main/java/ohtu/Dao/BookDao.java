@@ -27,7 +27,7 @@ public class BookDao implements Dao<Book, Integer> {
             if (!result.next()) {
                 return null;
             }
-            Book b = new Book(result.getInt("id"), result.getString("title"), result.getString("author"), result.getString("ISBN"), result.getString("tags"), result.getInt("seen") ,result.getDate("dateAdded"));
+            Book b = new Book(result.getInt("id"), result.getString("title"), result.getString("author"), result.getString("ISBN"), result.getString("tags"), result.getInt("seen"), result.getDate("dateAdded"));
             return b;
 
         }
@@ -91,7 +91,7 @@ public class BookDao implements Dao<Book, Integer> {
         return findByName(book.getTitle());
     }
 
-    public static ArrayList<String> validateName(String name) {
+    public ArrayList<String> validateName(String name) {
         ArrayList<String> errors = new ArrayList<>();
         if ("".equals(name) || name == null) {
             errors.add("Nimi ei saa olla tyhjä!");

@@ -66,6 +66,11 @@ public class Stepdefs {
         pageHasContent(title);
     }
 
+    @Then("^book named \"([^\"]*)\" has not been added$")
+    public void book_named_has_not_been_added(String arg1) throws Throwable {
+        pageHasNoContent(arg1);
+    }
+
     @Then("^book named \"([^\"]*)\" has been edited and its new name is \"([^\"]*)\"")
     public void user_has_changed_the_name_of_an_existing_bookmark(String originalTitle, String newTitle) {
         pageHasNoContent(originalTitle);
@@ -161,9 +166,8 @@ public class Stepdefs {
         assertTrue(driver.getPageSource().contains(content));
     }
 
-    /* helper methods */
     private void pageHasNoContent(String content) {
-        assertTrue(!driver.getPageSource().contains(content));
+        assertFalse(driver.getPageSource().contains(content));
     }
 
     @After

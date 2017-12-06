@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.sql.*;
 import ohtu.Dao.BookDao;
 import java.util.HashMap;
+import java.util.List;
 import ohtu.Dao.VideoDao;
 import ohtu.database.Database;
 import ohtu.domain.Book;
@@ -59,9 +60,16 @@ public class Main {
             String tags = request.queryParams("tags");
             int seen = 0;
             Book book = new Book(id, title, author, isbn, tags, seen);
-            books.update(book);
+
+            List<String> virheet = books.validateName(book.getTitle());
+            if (virheet.isEmpty()) {
+                books.update(book);
+            }
+
             response.redirect("/books/" + id);
-            return "";
+            //Returniin voisi laittaa saadut virhetilanteet?
+            //Alkeellinen toString() - testiversio alustavasti mukana
+            return virheet.toString();
         });
 
         Spark.post("/books", (request, response) -> {
@@ -71,9 +79,14 @@ public class Main {
             String tags = request.queryParams("tags");
             int seen = 0;
             Book book = new Book(title, author, isbn, tags, seen);
-            books.save(book);
+
+            List<String> virheet = books.validateName(book.getTitle());
+            if (virheet.isEmpty()) {
+                books.save(book);
+            }
             response.redirect("/books");
             return "";
+//            return virheet.toString();
         });
 
         Spark.post("/books/:id", (req, res) -> {
@@ -86,9 +99,7 @@ public class Main {
             res.redirect("/books");
             return ""; //ehkä voisi palauttaa jonkun ilmoituksen
         });
-        
-        
-        
+
         Spark.get("/videos", (req, res) -> {
             HashMap map = new HashMap<>();
             map.put("videos", videos.findAll());
