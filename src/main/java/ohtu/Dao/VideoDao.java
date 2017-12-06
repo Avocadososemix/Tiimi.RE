@@ -79,13 +79,14 @@ public class VideoDao implements Dao<Video, Integer> {
         Connection connection = database.getConnection();
         PreparedStatement statement = connection.prepareStatement(
                 "UPDATE Video"
-                + " SET title = ?, url = ?, tags = ?, comments = ?"
+                + " SET title = ?, url = ?, tags = ?, comments = ?, seen=?"
                 + " WHERE id = ?");
         statement.setString(1, video.getTitle());
         statement.setString(2, video.getUrl());
         statement.setString(3, video.getTags());
         statement.setString(4, video.getComment());
-        statement.setInt(5, video.getId());
+        statement.setBoolean(5, video.getSeen());
+        statement.setInt(6, video.getId());
         statement.executeUpdate();
 //        saveOrUpdateTags(video.getTags(), video.getTitle());
         return findByName(video.getTitle());
@@ -114,7 +115,6 @@ public class VideoDao implements Dao<Video, Integer> {
 //        }
 //
 //    }
-
     public Video findByName(String title) throws SQLException {
         try (Connection conn = database.getConnection()) {
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Video WHERE title = ?");
@@ -131,12 +131,12 @@ public class VideoDao implements Dao<Video, Integer> {
 
     @Override
     public void delete(Integer key) throws SQLException {
-        Connection connection = database.getConnection();
-        PreparedStatement statement = connection.prepareStatement("DELETE FROM Video WHERE id = ?");
-        statement.setInt(1, key);
-        statement.executeUpdate();
-        statement.close();
-        connection.close();
+        try (Connection connection = database.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM Video WHERE id = ?");
+            statement.setInt(1, key);
+            statement.executeUpdate();
+            statement.close();
+        }
     }
 
 }
