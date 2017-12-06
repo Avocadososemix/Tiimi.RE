@@ -58,7 +58,14 @@ public class Main {
             String title = request.queryParams("title");
             String isbn = request.queryParams("ISBN");
             String tags = request.queryParams("tags");
-            int seen = 0;
+            String checkbox = request.queryParams("box");
+            boolean seen = false;
+            //Painettu -> arvo = "on" 
+            //Ei painettu -> arvo = null
+            if (checkbox != null) {
+                seen = true;
+            }
+            System.out.println("Luettu? " + seen);
             Book book = new Book(id, title, author, isbn, tags, seen);
 
             List<String> virheet = books.validateName(book.getTitle());
@@ -77,7 +84,7 @@ public class Main {
             String title = request.queryParams("title");
             String isbn = request.queryParams("ISBN");
             String tags = request.queryParams("tags");
-            int seen = 0;
+            boolean seen = false;
             Book book = new Book(title, author, isbn, tags, seen);
 
             List<String> virheet = books.validateName(book.getTitle());
@@ -85,8 +92,7 @@ public class Main {
                 books.save(book);
             }
             response.redirect("/books");
-            return "";
-//            return virheet.toString();
+            return virheet.toString();
         });
 
         Spark.post("/books/:id", (req, res) -> {

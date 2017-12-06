@@ -11,10 +11,10 @@ public class Book {
     private String author;
     private String ISBN;
     private String tags;
-    private int seen;
+    private boolean seen;
     private Date time;
 
-    public Book(String title, String author, String isbn, String tags, int seen) {
+    public Book(String title, String author, String isbn, String tags, boolean seen) {
         this.author = author;
         this.title = title;
         this.ISBN = isbn;
@@ -23,7 +23,7 @@ public class Book {
         this.time = Date.valueOf(LocalDate.now());
     }
 
-    public Book(int id, String title, String author, String ISBN, String tags, int seen) {
+    public Book(int id, String title, String author, String ISBN, String tags, boolean seen) {
         this.id = id;
         this.title = title;
         this.author = author;
@@ -32,7 +32,7 @@ public class Book {
         this.seen = seen;
     }
 
-    public Book(Integer id, String title, String author, String ISBN, String tags, int seen, Date time) {
+    public Book(Integer id, String title, String author, String ISBN, String tags, boolean seen, Date time) {
         this.id = id;
         this.title = title;
         this.author = author;
@@ -86,7 +86,7 @@ public class Book {
         this.tags = tags;
     }
 
-    public Integer getSeen() {
+    public boolean getSeen() {
         return seen;
     }
 
