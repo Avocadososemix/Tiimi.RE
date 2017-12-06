@@ -27,7 +27,7 @@ public class VideoDao implements Dao<Video, Integer> {
             if (!result.next()) {
                 return null;
             }
-            Video b = new Video(result.getString("title"), result.getString("url"), result.getString("tags"), result.getString("comment"), result.getInt("id"), result.getDate("date"));
+            Video b = new Video(result.getString("title"), result.getString("url"), result.getString("tags"), result.getString("comment"), result.getInt("id"), result.getDate("dateAdded"), result.getInt("seen"));
             return b;
 
         }
@@ -41,7 +41,7 @@ public class VideoDao implements Dao<Video, Integer> {
                 ResultSet result = conn.prepareStatement("SELECT * FROM Video").executeQuery()) {
 
             while (result.next()) {
-                users.add(new Video(result.getString("title"), result.getString("url"), result.getString("tags"), result.getString("comment"), result.getInt("id"), result.getDate("date")));
+                users.add(new Video(result.getString("title"), result.getString("url"), result.getString("tags"), result.getString("comment"), result.getInt("id"), result.getDate("dateAdded"), result.getInt("seen")));
             }
         }
 
@@ -56,14 +56,15 @@ public class VideoDao implements Dao<Video, Integer> {
             return findByName(byName.getTitle());
         } //ei haluta kahta saman nimistä
 
-        //Tallennetaan kirja
+        //Tallennetaan video
         try (Connection conn = database.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO video (title, url, tags, comment, date) VALUES (?, ?, ?, ?, ?)");
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO video (title, url, tags, comment, seen, dateAdded) VALUES (?, ?, ?, ?, ?, ?)");
             stmt.setString(1, video.getTitle());
             stmt.setString(2, video.getUrl());
             stmt.setString(3, video.getTags());
             stmt.setString(4, video.getComment());
-            stmt.setDate(5, video.getTime());
+            stmt.setInt(5, video.getSeen());
+            stmt.setDate(6, video.getTime());
             stmt.executeUpdate();
 //            saveOrUpdateTags(video.getTags(), video.getTitle());
         }
@@ -124,7 +125,7 @@ public class VideoDao implements Dao<Video, Integer> {
                 return null;
             }
 
-            return new Video(result.getString("title"), result.getString("url"), result.getString("tags"), result.getString("comment"), result.getInt("id"), result.getDate("date"));
+            return new Video(result.getString("title"), result.getString("url"), result.getString("tags"), result.getString("comment"), result.getInt("id"), result.getDate("dateAdded"));
         }
     }
 

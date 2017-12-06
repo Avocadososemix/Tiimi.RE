@@ -136,7 +136,7 @@ public class Main {
         Spark.post("/videos", (request, response) -> {
             String url = request.queryParams("url");
             String title = request.queryParams("title");
-            String tags = request.queryParams("TAGS");
+            String tags = request.queryParams("tags");
             String comment = request.queryParams("comment");
             int seen = 0;
             Video video = new Video(title, url, tags, comment, seen);

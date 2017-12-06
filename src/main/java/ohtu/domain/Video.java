@@ -40,6 +40,10 @@ public class Video {
         this.seen = seen;
     }
 
+    public Video(String string, String string0, String string1, String string2, int aInt, Date date, int aInt0) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public void setTime(Date time) {
         this.time = time;
     }
@@ -58,6 +62,14 @@ public class Video {
 
     public String getComment() {
         return comment;
+    }
+
+    public int getSeen() {
+        return seen;
+    }
+
+    public void setSeen(int seen) {
+        this.seen = seen;
     }
 
     public String getTags() {
