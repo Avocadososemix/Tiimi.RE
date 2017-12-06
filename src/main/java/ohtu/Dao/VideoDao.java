@@ -27,7 +27,7 @@ public class VideoDao implements Dao<Video, Integer> {
             if (!result.next()) {
                 return null;
             }
-            Video b = new Video(result.getString("title"), result.getString("url"), result.getString("tags"), result.getString("comment"), result.getInt("id"), result.getDate("dateAdded"), result.getInt("seen"));
+            Video b = new Video(result.getString("title"), result.getString("url"), result.getString("tags"), result.getString("comments"), result.getInt("id"), result.getDate("dateAdded"), result.getInt("seen"));
             return b;
 
         }
@@ -41,7 +41,7 @@ public class VideoDao implements Dao<Video, Integer> {
                 ResultSet result = conn.prepareStatement("SELECT * FROM Video").executeQuery()) {
 
             while (result.next()) {
-                users.add(new Video(result.getString("title"), result.getString("url"), result.getString("tags"), result.getString("comment"), result.getInt("id"), result.getDate("dateAdded"), result.getInt("seen")));
+                users.add(new Video(result.getString("title"), result.getString("url"), result.getString("tags"), result.getString("comments"), result.getInt("id"), result.getDate("dateAdded"), result.getInt("seen")));
             }
         }
 
@@ -58,7 +58,7 @@ public class VideoDao implements Dao<Video, Integer> {
 
         //Tallennetaan video
         try (Connection conn = database.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO video (title, url, tags, comment, seen, dateAdded) VALUES (?, ?, ?, ?, ?, ?)");
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO video (title, url, tags, comments, seen, dateAdded) VALUES (?, ?, ?, ?, ?, ?)");
             stmt.setString(1, video.getTitle());
             stmt.setString(2, video.getUrl());
             stmt.setString(3, video.getTags());
@@ -79,7 +79,7 @@ public class VideoDao implements Dao<Video, Integer> {
         Connection connection = database.getConnection();
         PreparedStatement statement = connection.prepareStatement(
                 "UPDATE Video"
-                + " SET title = ?, url = ?, tags = ?, comment = ?"
+                + " SET title = ?, url = ?, tags = ?, comments = ?"
                 + " WHERE id = ?");
         statement.setString(1, video.getTitle());
         statement.setString(2, video.getUrl());
@@ -125,7 +125,7 @@ public class VideoDao implements Dao<Video, Integer> {
                 return null;
             }
 
-            return new Video(result.getString("title"), result.getString("url"), result.getString("tags"), result.getString("comment"), result.getInt("id"), result.getDate("dateAdded"));
+            return new Video(result.getString("title"), result.getString("url"), result.getString("tags"), result.getString("comments"), result.getInt("id"), result.getDate("dateAdded"));
         }
     }
 

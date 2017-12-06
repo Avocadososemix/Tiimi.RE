@@ -40,8 +40,14 @@ public class Video {
         this.seen = seen;
     }
 
-    public Video(String string, String string0, String string1, String string2, int aInt, Date date, int aInt0) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Video(String title, String url, String tags, String comment, int id, Date date, int seen) {
+        this.title = title;
+        this.url = url;
+        this.tags = tags;
+        this.comment = comment;
+        this.id = id;
+        this.seen = seen;
+        this.time = date;
     }
 
     public void setTime(Date time) {

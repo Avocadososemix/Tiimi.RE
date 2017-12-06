@@ -117,7 +117,7 @@ public class Main {
             HashMap map = new HashMap();
             Integer videoId = Integer.parseInt(request.params(":id"));
             map.put("video", videos.findOne(videoId));
-            return new ModelAndView(map, "edit");
+            return new ModelAndView(map, "editVideo");
         }, new ThymeleafTemplateEngine());
 
         Spark.post("/videos/:id/edit", (request, response) -> {

@@ -4,20 +4,20 @@
         <title>Tiimi.io</title>
     </head>
     <body>
-        <h1 th:text="${book.title}">Book</h1>
+        <h1 th:text="${video.title}">Book</h1>
 
-        <form method="POST" th:action="@{~/books/{id}/edit(id=${book.id})}">
+        <form method="POST" th:action="@{~/video/{id}/edit(id=${video.id})}">
             <label>Title:</label><br/>
-            <input type="text" name="title" th:value="${book.title}" required/><br/>
-            <label>Author:</label><br/>
-            <input type="text" name="author" th:value="${book.author}" required/><br/>
-            <label>ISBN:</label><br/>
-            <input type="text" name="ISBN" th:value="${book.ISBN}" required/><br/>
+            <input type="text" name="title" th:value="${video.title}" required/><br/>
+            <label>Url:</label><br/>
+            <input type="text" name="author" th:value="${video.url}" required/><br/>
+            <label>Comment:</label><br/>
+            <input type="text" name="ISBN" th:value="${video.comment}" required/><br/>
             <label>Tags:</label><br/>
-            <input type="text" name="tags" th:value="${book.tags}"/><br/>       
+            <input type="text" name="tags" th:value="${video.tags}"/><br/>       
             <button type="submit" name="send">Edit</button>
         </form>
-
+        
         <form>
             <div class="checkbox">
                 <label>
@@ -29,4 +29,3 @@
         </form>
     </body>
 </html>
-
