@@ -171,6 +171,11 @@ public class BookDao implements Dao<Book, Integer> {
         statement.setInt(1, key);
         statement.executeUpdate();
         statement.close();
+        PreparedStatement stmt = connection.prepareStatement("DELETE FROM BookTags WHERE book_id = ?");
+        statement.setInt(1, key);
+        stmt.executeUpdate();
+        stmt.close();
+        
         connection.close();
     }
 
