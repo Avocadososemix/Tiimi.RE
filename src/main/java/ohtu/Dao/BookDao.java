@@ -27,7 +27,7 @@ public class BookDao implements Dao<Book, Integer> {
             if (!result.next()) {
                 return null;
             }
-            Book b = new Book(result.getInt("id"), result.getString("title"), result.getString("author"), result.getString("ISBN"), result.getString("tags"), result.getInt("seen"), result.getDate("dateAdded"));
+            Book b = new Book(result.getInt("id"), result.getString("title"), result.getString("author"), result.getString("ISBN"), result.getString("tags"), result.getBoolean("seen"), result.getDate("dateAdded"));
             return b;
 
         }
@@ -41,7 +41,7 @@ public class BookDao implements Dao<Book, Integer> {
                 ResultSet result = conn.prepareStatement("SELECT * FROM Book").executeQuery()) {
 
             while (result.next()) {
-                users.add(new Book(result.getInt("id"), result.getString("title"), result.getString("author"), result.getString("ISBN"), result.getString("tags"), result.getInt("seen")));
+                users.add(new Book(result.getInt("id"), result.getString("title"), result.getString("author"), result.getString("ISBN"), result.getString("tags"), result.getBoolean("seen")));
             }
         }
 
@@ -63,7 +63,7 @@ public class BookDao implements Dao<Book, Integer> {
             stmt.setString(2, book.getAuthor());
             stmt.setString(3, book.getISBN());
             stmt.setString(4, book.getTags());
-            stmt.setInt(5, book.getSeen());
+            stmt.setBoolean(5, book.getSeen());
             stmt.setDate(6, book.getTime());
             stmt.executeUpdate();
             saveOrUpdateTags(book.getTags(), book.getTitle());
@@ -79,13 +79,14 @@ public class BookDao implements Dao<Book, Integer> {
         Connection connection = database.getConnection();
         PreparedStatement statement = connection.prepareStatement(
                 "UPDATE Book"
-                + " SET title = ?, author = ?, ISBN = ?, tags = ?"
+                + " SET title = ?, author = ?, ISBN = ?, tags = ?, seen = ?"
                 + " WHERE id = ?");
         statement.setString(1, book.getTitle());
         statement.setString(2, book.getAuthor());
         statement.setString(3, book.getISBN());
         statement.setString(4, book.getTags());
-        statement.setInt(5, book.getId());
+        statement.setBoolean(5, book.getSeen());
+        statement.setInt(6, book.getId());
         statement.executeUpdate();
         saveOrUpdateTags(book.getTags(), book.getTitle());
         return findByName(book.getTitle());
@@ -93,9 +94,6 @@ public class BookDao implements Dao<Book, Integer> {
 
     public ArrayList<String> validateName(String name) {
         ArrayList<String> errors = new ArrayList<>();
-        if ("".equals(name) || name == null) {
-            errors.add("Nimi ei saa olla tyhjä!");
-        }
         if (name.length() < 3) {
             errors.add("Nimen pituuden tulee olla vähintään kolme merkkiä!");
         }
@@ -126,11 +124,11 @@ public class BookDao implements Dao<Book, Integer> {
 
     }
 
-    private String findTagsAndReturnAsCommaSeparatedString(int id) throws SQLException {
+    public String findTagsAndReturnAsCommaSeparatedString(int id) throws SQLException {
         try (Connection conn = database.getConnection()) {
-            PreparedStatement tagit = conn.prepareStatement("SELECT tagName FROM Tags \n"
-                    + "LEFT JOIN BookTags ON Tags.tag_id = BookTags.tag_id\n"
-                    + "LEFT JOIN Book ON BookTags.book_id = Book.id\n"
+            PreparedStatement tagit = conn.prepareStatement("SELECT tagName FROM Tags"
+                    + "LEFT JOIN BookTags ON Tags.tag_id = BookTags.tag_id"
+                    + "LEFT JOIN Book ON BookTags.book_id = Book.id"
                     + "WHERE Book.id = ?");
 
             tagit.setInt(1, id);
@@ -160,7 +158,7 @@ public class BookDao implements Dao<Book, Integer> {
                 return null;
             }
 
-            return new Book(result.getInt("id"), result.getString("title"), result.getString("author"), result.getString("ISBN"), result.getString("tags"), result.getInt("seen"));
+            return new Book(result.getInt("id"), result.getString("title"), result.getString("author"), result.getString("ISBN"), result.getString("tags"), result.getBoolean("seen"));
         }
     }
 
@@ -170,12 +168,13 @@ public class BookDao implements Dao<Book, Integer> {
         PreparedStatement statement = connection.prepareStatement("DELETE FROM Book WHERE id = ?");
         statement.setInt(1, key);
         statement.executeUpdate();
+
 //        statement.close();
 //        PreparedStatement stmt = connection.prepareStatement("DELETE FROM BookTags WHERE book_id = ?");
 //        statement.setInt(1, key);
 //        stmt.executeUpdate();
 //        stmt.close();
-//        
+
         connection.close();
     }
 
