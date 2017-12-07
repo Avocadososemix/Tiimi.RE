@@ -23,7 +23,7 @@ public class Main {
         if (System.getenv("PORT") != null) {
             port(Integer.valueOf(System.getenv("PORT")));
         }
-        Database database = new Database("jdbc:sqlite:tietokanta.db");
+        Database database = new Database("jdbc:postgresql://localhost/tietokanta.db");
         BookDao books = new BookDao(database);
         VideoDao videos = new VideoDao(database);
 
