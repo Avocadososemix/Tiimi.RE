@@ -169,5 +169,22 @@ public class Main {
             return "";
         });
 
+        Spark.get("/search", (req, res) -> {
+            HashMap map = new HashMap<>();
+            map.put("videos", videos.findAll());
+            map.put("books", books.findAll());
+
+            return new ModelAndView(map, "search");
+        }, new ThymeleafTemplateEngine());
+
+        Spark.get("/searched:tag", (req, res) -> {
+            String tag = (req.params(":tag"));
+            HashMap map = new HashMap<>();
+//            map.put("videos", videos.findAll());
+            map.put("books", books.findAllWithTag(tag)); //sama videolla
+
+            return new ModelAndView(map, "searched");
+        }, new ThymeleafTemplateEngine());
+
     }
 }
